@@ -1,0 +1,248 @@
+<% addScripts(['users.js']) %>
+<%- include('../shared/header') %>
+<%- include('../shared/sidebar') %>
+<!-- #Main ============================ -->
+<div class="page home-page">
+<%- include('../shared/navbar') %>
+<!-- Counts Section -->
+<section class="dashboard-counts section-padding">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h2 class="h5 display">Informations sur l'utilisateur</h2>
+          </div>
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li class="list-group-item"><strong>Date d'inscription :<br></strong><%- user.createdAt %></li>
+                  <li class="list-group-item"><strong>Nom d'utilisateur :<br></strong><%- user.username %></li>
+                  <li class="list-group-item"><strong>Email :<br></strong><%- user.email %></li>
+                  <li class="list-group-item"><strong>Nom :</strong><%- user.lastname %></li>
+                  <li class="list-group-item"><strong>Prénom :<br></strong><%- (user.firstname == null) ? "null":user.firstname %></li>
+                  <li class="list-group-item"><strong>Sexe :<br></strong><%- (user.gender == null) ? "null":user.gender %></li>
+                  <li class="list-group-item"><strong>Anniversaire :<br></strong><%- (user.birthday == null) ? "null":user.birthday %></li>
+                </ul>
+              </div>
+
+              <div class="col-md-6">
+                <ul class="list-group">
+                  <li class="list-group-item"><strong>Dernière mise à jour :<br></strong><%- user.updatedAt %></li>
+                  <li class="list-group-item"><strong>Locale :<br></strong><%- (user.locale == null) ? "null":user.locale %></li>
+                  <li class="list-group-item"><strong>Facebook ID :<br></strong><%- (user.facebookId == null) ? "null":user.facebookId %></li>
+                  <li class="list-group-item"><strong>Status :<br></strong><%- user.status %></li>
+                  <li class="list-group-item"><strong>Email vérfié :<br></strong><%- user.emailVerified %></li>
+                  <li class="list-group-item"><strong>ZaniCoins :<br></strong><%- user.point %></li>
+                  <li class="list-group-item"><strong>Jetons :<br></strong><%- user.jeton %></li>
+                </ul>
+              </div>
+
+              <div class="col-md-12 mt-2">
+                <p>
+                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsePaiementData" aria-expanded="false" aria-controls="collapsePaiementData">
+                    Informations de paiement
+                  </button>
+                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseDevicesData" aria-expanded="false" aria-controls="collapseDevicesData">
+                    Périphériques
+                  </button>
+                </p>
+
+                <div class="collapse" id="collapsePaiementData">
+                  <div class="card card-block">
+                    <dl class="row">
+                      <dt class="col-sm-3">Adresse</dt>
+                      <dd class="col-sm-9"><%- (user.address.street == null) ? "null":user.address.street  %><br>
+                        <%- (user.address.zipcode == null) ? "null":user.address.zipcode %> <%- (user.address.city == null) ? "null":user.address.city %><br>
+                        <%- (user.address.country == null) ? "null":user.address.country %></dd>
+                      <dt class="col-sm-3">PayPal</dt>
+                      <dd class="col-sm-9"><%- (user.paypal == null) ? "null":user.paypal %></dd>
+                      </dl>
+                    </div>
+                  </div>
+
+                  <div class="collapse" id="collapseDevicesData">
+                    <div class="card card-block">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12 mt-2">
+          <div class="card">
+            <div class="card-header d-flex align-items-center">
+              <h2 class="h5 display">Liste des grilles</h2>
+            </div>
+            <div class="card-body">
+              <table id="grillesTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0" value="<%- user._id %>">
+                <thead>
+                  <tr>
+                    <th>Date de création</th>
+                    <th>Dernière mise à jour</th>
+                    <th>Status</th>
+                    <th>Ticket</th>
+                    <th>Pronos gagnant</th>
+                    <th>ID</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-12 mt-2">
+          <div class="card">
+            <div class="card-header d-flex align-items-center">
+              <h2 class="h5 display">Demande de paiement</h2>
+            </div>
+            <div class="card-body">
+              <table id="payoutsTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Date de création</th>
+                    <th>Dernière mise à jour</th>
+                    <th>Type</th>
+                    <th>Source</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Grille Modal -->
+  <div class="modal fade" id="grilleMultiModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Détails de la grille</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grille Modal -->
+  <div class="modal fade" id="grilleSimpleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Détails de la grille</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <div class="col-md-5">
+              <p class="home-team">PSG</p>
+            </div>
+            <div class="col-md-2">
+              <p class="score">1 - 0</p>
+            </div>
+            <div class="col-md-5">
+              <p class="away-team">OM</p>
+            </div>
+          </div>
+
+          <div id="accordion" role="tablist" aria-multiselectable="true">
+
+            <div class="card">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Évènements du match
+                  </a>
+                </h5>
+              </div>
+
+              <div id="collapseTwo" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block">
+                  <table class="table table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th>Équipe</th>
+                        <th>Event</th>
+                        <th>Minute</th>
+                      </tr>
+                    </thead>
+                    <tbody id="eventsTable">
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" role="tab" id="headingOne">
+                <h5 class="mb-0">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Les paris
+                  </a>
+                </h5>
+              </div>
+
+              <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block">
+                  <ul class="list-group">
+                    <li class="list-group-item justify-content-end">
+                      Qui va gagner ce match :
+                      <span id="bet1" class="badge badge-pill"></span>
+                    </li>
+                    <li class="list-group-item justify-content-between">
+                      Les deux équipes marquent :
+                      <span id="bet2" class="badge badge-pill"></span>
+                    </li>
+                    <li class="list-group-item justify-content-between">
+                      Total de buts plus/moins :
+                      <span id="bet3" class="badge badge-pill"></span>
+                    </li>
+                    <li class="list-group-item justify-content-between">
+                      Première équipe à marquer :
+                      <span id="bet4" class="badge badge-pill"></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../shared/footer') %>

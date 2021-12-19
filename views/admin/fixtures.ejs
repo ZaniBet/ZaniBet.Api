@@ -1,0 +1,95 @@
+<% addScripts(['fixtures.js']) %>
+
+<%- include('shared/header') %>
+<%- include('shared/sidebar') %>
+<!-- #Main ============================ -->
+<div class="page home-page">
+<%- include('shared/navbar') %>
+
+<!-- Counts Section -->
+<section class="dashboard-counts section-padding">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-2 col-md-4 col-6">
+        <div class="wrapper count-title d-flex">
+          <div class="icon"><i class="icon-user"></i></div>
+          <div class="name"><strong class="text-uppercase">MATCH</strong><span>Ce mois ci</span>
+            <div class="count-number"><%- countFixturesMonth %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h2 class="h5 display">MATCHS DU JOUR</h2>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Domicile</th>
+                  <th>Extérieur</th>
+                  <th>Score</th>
+                  <th>Compétition</th>
+                  <th>Status</th>
+                  <th>SportMonks ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% fixturesToday.forEach(function(fixture){ %>
+                  <tr>
+                    <td><%- fixture._id %></td>
+                    <td><%- fixture.homeTeam.name %></td>
+                    <td><%- fixture.awayTeam.name %></td>
+                    <td><%- fixture.result.homeScore %> - <%- fixture.result.awayScore %></td>
+                    <td><%- fixture.competition.name %></td>
+                    <td><%- fixture.status %></td>
+                    <td><%- fixture.api.sportmonks %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h2 class="h5 display">LISTE DES MATCHS</h2>
+          </div>
+          <div class="card-body">
+            <table id="fixturesTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Domicile</th>
+                  <th>Date</th>
+                  <th>Extérieur</th>
+                  <th>Compétition</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Domicile</th>
+                  <th>Date</th>
+                  <th>Extérieur</th>
+                  <th>Compétition</th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<%- include('shared/footer') %>

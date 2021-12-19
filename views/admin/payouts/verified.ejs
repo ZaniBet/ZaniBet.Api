@@ -1,0 +1,56 @@
+<% addScripts(['payouts.js']) %>
+
+<%- include('../shared/header') %>
+<%- include('../shared/sidebar') %>
+<!-- #Main ============================ -->
+<div class="page home-page">
+<%- include('../shared/navbar') %>
+<!-- Counts Section -->
+<section class="statistics section-padding">
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <% payouts.forEach(function(payout) { %>
+        <div class="col-md-4 mb-1">
+          <div class="wrapper income text-center">
+            <p><%- payout.date %><br>
+              <% if (payout.kind == "Grille"){ %>
+              <strong class="text-primary"><%- payout.target.gameTicket.name %> J<%- payout.target.gameTicket.matchDay %></strong><br>
+              <strong class="text-primary"><%- payout.amount %>€</strong><br>
+              <% } else { %>
+                <strong class="text-primary"><%- payout.target.name %> <%- payout.amount %>€</strong><br>
+              <% } %>
+              <b>Date</b> : <%- payout.createdAt %><br>
+              <b>Status</b> : <%- payout.status %><br>
+              <b>ID</b> : <%- payout._id %><br>
+              <b>Paypal</b> : <br><%- payout.user.paypal %><br>
+              <b>Bitcoin</b> : <br><%- payout.user.bitcoin %>
+            </p>
+            <hr>
+            <b class="text-info">Facturation</b><br>
+            <b>User ID: :</b> <%- payout.user._id %><br>
+            <b>Mode de paiement :</b> <%- payout.invoice.paymentMethod %><br>
+            <b>Adresse de paiement :</b> <%- payout.invoice.paymentAddress %><br>
+            <b>Adresse postale :</b> <%- payout.invoice.address %>
+            <hr>
+            <button onclick="getPaymentMessage('<%- payout._id %>')" value="<%- payout._id %>" class="btn btn-info">Message</button>
+            <button onclick="notifyPayment('<%- payout._id %>')" value="<%- payout._id %>" class="btn btn-primary">Notify</button>
+            <hr>
+            <b>Inscription</b> : <%- moment(payout.user.createdAt).format('YYYY/MM/DD') %><br>
+            <b>Last update</b> : <%- moment(payout.user.updatedAt).format('YYYY/MM/DD') %><br>
+            <b>Grilles Multi Jouées</b> : <%- payout.user.stats.totalGridMatchday %><br>
+            <b>Grilles Simple Jouées</b> : <%- payout.user.stats.totalGridSimple %><br>
+            <b>ZaniHash récoltés</b> : <%- payout.user.wallet.totalZaniHash %><br>
+
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+
+
+  </div>
+</section>
+
+<%- include('../shared/footer') %>

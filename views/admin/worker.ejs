@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ZaniBet - Administration</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+</head>
+<body>
+<button id="ticket_worker">Ticket Worker</button>
+<button id="fake_ads_worker">Fake Ads Worker</button>
+<button id="fixture_worker">Fixture Worker</button>
+
+<script>
+document.getElementById("ticket_worker").onclick = function() { executeWorker("worker/ticket_worker.js") };
+document.getElementById("fake_ads_worker").onclick = function() { executeWorker("worker/fake_ads_worker.js") };
+document.getElementById("fixture_worker").onclick = function() { executeWorker("worker/sportmonks/fixture_worker.js") };
+
+function executeWorker(value){
+  const req = new XMLHttpRequest();
+  req.onreadystatechange = function(event) {
+      // XMLHttpRequest.DONE === 4
+      if (this.readyState === XMLHttpRequest.DONE) {
+          if (this.status === 200) {
+              console.log("Réponse reçue: %s", this.responseText);
+          } else {
+              console.log("Status de la réponse: %d (%s)", this.status, this.statusText);
+          }
+      }
+  };
+
+  req.open('POST', 'http://localhost:5000/back/worker', true);
+  req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  req.send('worker='+value);
+}
+
+</script>
+
+</body>
+</html>

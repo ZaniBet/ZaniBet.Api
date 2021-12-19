@@ -1,0 +1,53 @@
+<% addScripts(['fixtures.js']) %>
+
+<%- include('../shared/header') %>
+<%- include('../shared/sidebar') %>
+<!-- #Main ============================ -->
+<div class="page home-page">
+<%- include('../shared/navbar') %>
+<!-- Counts Section -->
+<section class="statistics section-padding">
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <% fixtures.forEach(function(fixture) { %>
+        <div class="col-md-4 mb-1">
+          <div class="wrapper income text-center">
+            <p><%- fixture.date %><br>
+              <strong class="text-primary"><%- fixture.homeTeam.name %> - <br><%- fixture.awayTeam.name %></strong><br>
+              <strong><%- fixture.competition.name %> - <%- fixture.competition.country %></strong><br>
+              Matchday : <%- fixture.matchDay %><br>
+              Status : <%- fixture.status %><br>
+              Comment : <%- fixture.comment %><br>
+              ID : <%- fixture._id %>
+            </p>
+            <a target="_blank" href="https://www.google.fr/search?q=<%- fixture.homeTeam.name %>+-+<%- fixture.awayTeam.name %>" class="btn btn-primary">Google</a><hr>
+            <form class="form-group">
+              <div class="row justify-content-md-center">
+                <div class="col-md-3">
+                  <input id="home-score-<%- fixture._id %>" type="text" placeholder="" class="form-control">
+                </div>
+                <div class="col-md-3">
+                  <input id="away-score-<%- fixture._id %>" type="text" placeholder="" class="form-control">
+                </div>
+                <div class="col-md-3">
+                  <button type="button" id="fix-score" value="<%- fixture._id %>" class="btn btn-primary">OK</button>
+                </div>
+              </div>
+              <hr>
+              <div class="col-md-12">
+                <button type="button" id="cancel-fixture" value="<%- fixture._id %>" class="btn btn-primary">Annuler</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+
+
+  </div>
+</section>
+
+<%- include('../shared/footer') %>

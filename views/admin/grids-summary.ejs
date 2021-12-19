@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compte rendu des grilles jouées par l'utilisateur <%= user.email %></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container">
+    <section id="header-section">
+      <div class="mx-auto text-center mt-3">
+        <img src="https://s3-eu-west-1.amazonaws.com/zanibet/newsletters/logo311x311.png" class="rounded" height="100" width="100">
+        <h2>Compte rendu de toutes vos grilles jouées sur ZaniBet</h2>
+        <p class="text-success">https://www.zanibet.com</p>
+      </div>
+    </section>
+
+    <section id="player-info-section">
+      <span><strong>Période :</strong></span> <%= moment(user.createdAt).format('dddd DD MMM YYYY') %> au <%= moment().format('dddd DD MMM YYYY') %><br>
+      <span><strong>ID :</strong></span> <%= user._id %><br>
+      <span><strong>Nom d'utilisateur :</strong></span> <%= user.username %><br>
+      <span><strong>Adresse email :</strong></span> <%= user.email %>
+    </section>
+
+    <section id="grid-multi-section" class="p-3 bg-light mt-4">
+      <h3>Grilles validées pour les tickets MULTI</h3>
+      <span><strong>JDM:</strong> Jour de match - <strong>PRG:</strong> pronostics gagnant - <strong>PPG:</strong> points par pronostic gagnant</span><br>
+      <strong>Nombre de grilles MULTI jouées :</strong> <%= countGridMulti %>
+      <div class="row">
+        <% gridsMulti.forEach(function(gridGroup){ %>
+          <div class="col-md-12 m-2">
+            <h4><%- gridGroup._id %></h4>
+            <table class="table table-sm table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">JDM</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Référence</th>
+                  <th scope="col">PRG</th>
+                  <th scope="col">PPG</th>
+                  <th scope="col">Bonus</th>
+                  <th scope="col">Gain</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% gridGroup.grilles.forEach(function(grid){ %>
+                  <tr>
+                    <th><%= grid.gameTicket[0].matchDay %></th>
+                    <th><%= moment(grid.createdAt).format('dddd DD MMM YYYY HH:mm') %></th>
+                    <th><%= grid.reference %></th>
+                    <th><%= grid.numberOfBetsWin %></th>
+                    <th><%= grid.gameTicket[0].pointsPerBet %></th>
+                    <th><% if (grid.numberOfBetsWin == grid.bets.length) { %>1000<% } else { %>0<% } %></th>
+                    <th><%= grid.payout.point %></th>
+                  </tr>
+                  <% }); %>
+                </tbody>
+
+              </table>
+              <span><strong>Gain total :</strong> <%= gridGroup.totalCoin %> ZANICOINS</span>
+            </div>
+            <% }); %>
+          </div>
+        </section>
+
+        <section id="grid-simple-section" class="bg-light p-3 mt-4">
+          <h3>Grilles validées pour les tickets SIMPLE</h3>
+          <span><strong>JDM:</strong> Jour de match - <strong>PRG:</strong> pronostics gagnant - <strong>PPG:</strong> points par pronostic gagnant</span><br>
+          <strong>Nombre de grilles SIMPLE jouées :</strong> <%= countGridSimple %>
+          <div class="row">
+            <% gridsSimple.forEach(function(gridGroup){ %>
+              <div class="col-md-12 m-2">
+                <h4><%- gridGroup._id %></h4>
+                <table class="table table-sm table-bordered">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">JDM</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Référence</th>
+                      <th scope="col">PRG</th>
+                      <th scope="col">PPG</th>
+                      <th scope="col">Gain</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <% gridGroup.grilles.forEach(function(grid){ %>
+                      <tr>
+                        <th><%= grid.gameTicket[0].matchDay %></th>
+                        <th><%= moment(grid.createdAt).format('dddd DD MMM YYYY HH:mm') %></th>
+                        <th><%= grid.reference %></th>
+                        <th><%= grid.numberOfBetsWin %></th>
+                        <th><%= grid.gameTicket[0].pointsPerBet %></th>
+                        <th><%= grid.payout.point %></th>
+                      </tr>
+                      <% }); %>
+                    </tbody>
+                  </table>
+                  <span><strong>Gain total :</strong> <%= gridGroup.totalCoin %> ZANICOINS</span>
+                </div>
+                <% }); %>
+              </div>
+            </section>
+
+            <footer class="mt-4">
+              Nous vous remercions de la confiance que vous accordez à notre application.<br>
+              Document généré le <strong><%= moment().format('dddd DD MMM YYYY à HH:mm:ss') %></strong><br>
+              En cas de problème ou question, vous pouvez joindre notre support à cette adresse : help@zanibet.com
+            </footer>
+
+          </div>
+        </body>
+        </html>

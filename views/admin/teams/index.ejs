@@ -1,0 +1,95 @@
+<% addScripts(['teams.js']) %>
+<%- include('../shared/header') %>
+<%- include('../shared/sidebar') %>
+<!-- #Main ============================ -->
+<div class="page home-page">
+<%- include('../shared/navbar') %>
+<!-- Counts Section -->
+<section class="dashboard-counts section-padding">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header d-flex align-items-center">
+            <h2 class="h5 display">LISTE DES ÉQUIPES</h2>
+          </div>
+          <div class="card-body">
+            <div class="col-lg-12">
+              <select class="custom-select" id="competitionFilter">
+                <option selected></option>
+                <%  competitions.forEach(function(competition){ %>
+                  <option value="<%- competition._id %>"><%- competition.name %></option>
+                  <% }); %>
+                </select>
+              </div>
+
+              <table id="teamsTable" class="table table-striped table-bordered dt-responsive nowrap" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Abréviation</th>
+                    <th>Logo</th>
+                    <th>Compétition</th>
+                    <th>Hashtag</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <th>Nom</th>
+                    <th>Abréviation</th>
+                    <th>Logo</th>
+                    <th>Compétition</th>
+                    <th>Hashtag</th>
+                    <th>Action</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal fade" id="editTeamModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modifier l'équipe</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form class="save-team-form">
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="inputName">Nom</label>
+              <input type="text" class="form-control" id="inputName" placeholder="Nom de l'équipe" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputShortName">Abréviation</label>
+              <input type="text" class="form-control" id="inputShortName" placeholder="Nom court de l'équipe">
+            </div>
+
+            <div class="form-group">
+              <label for="inputLogo">Logo</label>
+              <input type="text" class="form-control" id="inputLogo" placeholder="URL du logo" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputHashtag">Hashtag</label>
+              <input type="text" class="form-control" id="inputHashtag" placeholder="Hashtag">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <%- include('../shared/footer') %>

@@ -1,0 +1,41 @@
+<!-- Side Navbar -->
+<nav class="side-navbar">
+  <div class="side-navbar-wrapper">
+    <div class="sidenav-header d-flex align-items-center justify-content-center">
+      <div class="sidenav-header-inner text-center"><img src="img/avatar-1.jpg" alt="person" class="img-fluid rounded-circle">
+        <h2 class="h5 text-uppercase">ZaniBet</h2><span class="text-uppercase">Pronostic Foot</span>
+      </div>
+      <div class="sidenav-header-logo"><a href="index.html" class="brand-small text-center"> <strong>B</strong><strong class="text-primary">D</strong></a></div>
+    </div>
+    <div class="main-menu">
+      <ul id="side-main-menu" class="side-menu list-unstyled">
+        <li <% if(activePage == "dashboard") { %>class="active"<% } %>><a href="/back"> <i class="icon-home"></i><span>Dashboard</span></a></li>
+        <li><a href="/back/competitions"><i class="icon-form"></i><span>Compétitions</span></a></li>
+        <li><a href="/back/teams"><i class="icon-presentation"></i><span>Équipes</span></a></li>
+
+        <li> <a href="#pages-nav-list" data-toggle="collapse" aria-expanded="true"><i class="icon-interface-windows"></i><span>Matchs</span>
+            <div class="arrow pull-right"><i class="fa fa-angle-down"></i></div></a>
+          <ul id="pages-nav-list" class="collapse list-unstyled">
+            <li <% if(activePage == "fixtures") { %>class="active"<% } %>> <a href="/back/fixtures">All</a></li>
+            <li <% if(activePage == "fixtures/corrupted") { %>class="active"<% } %>> <a href="/back/fixtures/corrupted">À vérifier</a></li>
+          </ul>
+        </li>
+
+        <li><a href="/back/gametickets"> <i class="icon-grid"> </i><span>Ticket</span></a></li>
+        <li <% if(activePage == "users") { %>class="active"<% } %>><a href="/back/users"> <i class="icon-user"> </i><span>Utilisateurs</span></a></li>
+        <li><a href="/back/grilles"> <i class="icon-user"> </i><span>Grilles</span></a></li>
+
+        <li> <a href="#pages-nav-list2" data-toggle="collapse" aria-expanded="true"><i class="icon-interface-windows"></i><span>Paiements</span>
+            <div class="arrow pull-right"><i class="fa fa-angle-down"></i></div></a>
+          <ul id="pages-nav-list2" class="collapse list-unstyled">
+            <li <% if(activePage == "payouts") { %>class="active"<% } %>> <a href="/back/payouts">En attente</a></li>
+            <li <% if(activePage == "payouts/done") { %>class="active"<% } %>> <a href="/back/fixtures/corrupted">Terminés</a></li>
+          </ul>
+        </li>
+
+        <li><a href="tables.html"> <i class="icon-bill"> </i><span>Boutique</span></a></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
